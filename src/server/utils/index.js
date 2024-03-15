@@ -2,7 +2,7 @@ import { encrypt, coprime256, decrypt } from "./affine-cipher.util.js"
 import { Buffer } from "node:buffer"
 
 let msg = "Hello, my name is Udin!"
-let msg_ = Uint8Array.from(Buffer.from(msg))
+let msg_ = (Buffer.from(msg))
 let m = 11
 let b = 6
 

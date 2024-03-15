@@ -1,10 +1,14 @@
-import { mod_rc4 } from "./services/mod-rc4.service.js";
+import express from "express"
+import cors from "cors"
+import { router } from "./routes/router.js"
 
-// const plaintext = "Halo namaku Udin"
-const key = "123abc"
+const app = express()
+const port = 3636
 
-const path = "./1710426744031_encrypted"
+app.use(cors())
+app.use(express.json())
+app.use([router])
 
-const ciphertext = mod_rc4("decrypt", true, path, key)
-
-console.log(ciphertext)
+app.listen(port, () => {
+  console.log(`[server]: Server is running at Port:${port}`)
+})

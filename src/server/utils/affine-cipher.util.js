@@ -1,4 +1,4 @@
-const gcd = (a, b) => {
+export const gcd = (a, b) => {
     if (b === 0) {
         return a
     } else {
