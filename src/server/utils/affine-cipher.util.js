@@ -45,7 +45,6 @@ export const coprime256 = () => {
 
 export const encrypt = (in_, m, b) => {
     let out_ = []
-    // console.log(in_)
     for (let i = 0; i < in_.length; i++) {
         let p = in_[i]
         let encrypted = ((m * p) + b) % 256

@@ -1,11 +1,5 @@
-// import fs from "fs"
 import { Buffer } from "node:buffer"
 import { encrypt as affineEncrypt, decrypt as affineDecrypt, coprime256 } from "../utils/affine-cipher.util.js"
-// import path from "path"
-// import { fileURLToPath } from "url"
-
-// const __filename = fileURLToPath(import.meta.url)
-// const __dirname = path.dirname(__filename)
 
 export const mod_rc4 = (mode, buf, rc4_key, m, b) => {
     if (!coprime256().includes(m)) {
@@ -43,8 +37,6 @@ export const mod_rc4 = (mode, buf, rc4_key, m, b) => {
             out_ = u ^ in_
             let out__ = [out_]
             FOut[id] = affineEncrypt(out__, m, b)[0]
-            // console.log(in_)
-            // console.log(u)
         } 
     } else if (mode === "decrypt") {
         for (let id = 0; id < buf.length; id++) {
@@ -58,15 +50,8 @@ export const mod_rc4 = (mode, buf, rc4_key, m, b) => {
             u = S[t]
             out_ = u ^ in_
             FOut[id] = out_
-            // console.log(in_)
-            // console.log(u)
         }
     }
-
-    // let FOutName = `${path.join(__dirname, "..", "..", "..", "downloads")}/${fileName}`
-    // fs.writeFileSync(FOutName, FOut)
-
-    // console.log(FOut)
 
     return FOut
 }
