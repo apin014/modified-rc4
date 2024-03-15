@@ -1,4 +1,4 @@
-import { mod_rc4, extractExt } from "../services/mod-rc4.service.js"
+import { mod_rc4 } from "../services/mod-rc4.service.js"
 import fs from "fs"
 import { Buffer } from "node:buffer"
 import path from "path"
@@ -11,32 +11,17 @@ export const modified_rc4_file = (req, res) => {
     try {
         let fileName = `${Date.now()}_${req.params.flavor}ed`
         const fileIn = fs.readFileSync(req.file.path)
-        let in_, ext
-        if (req.params.flavor === "encrypt") {
-            ext = path.extname(req.file.path)
-            const extBuf = Buffer.from(`${ext.length}` + ext)
-            in_ = Buffer.concat([extBuf, fileIn])
-        } else if (req.params.flavor === "decrypt") {
-            in_ = fileIn
-        }
+        let in_ = fileIn
         const result = mod_rc4(req.params.flavor, in_, Buffer.from(req.body.rc4_key), parseInt(req.body.m), parseInt(req.body.b), fileName)
 
         if (result) {
             if (req.query.out === "file") {
-                if (req.params.flavor === "decrypt") {
-                    ext = extractExt(result)
-                    fileName += ext
-                    console.log(ext)
-                }
                 const pathName = `${path.join(__dirname, "..", "..", "..", "downloads")}/${fileName}`
                 fs.writeFileSync(pathName, result)
                 res.attachment(pathName)
                 res.status(200).sendFile(pathName)
             }
             else if (req.query.out === "text") {
-                if (req.params.flavor === "decrypt") {
-                    extractExt(result)
-                }
                 const result_ = result.toString("base64")
                 res.status(200).send({
                     msg: result_ + " (base64)"

@@ -55,26 +55,3 @@ export const mod_rc4 = (mode, buf, rc4_key, m, b) => {
 
     return FOut
 }
-
-export const extractExt = (buf) => {
-    const num = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
-    let ext = ""
-    let sBuf = buf.toString("utf-8")
-    let sLen = sBuf[0]
-
-    for (let i = 1; ;i++) {
-        if (num.includes(sBuf[i])) {
-            sLen += sBuf[i]
-            sBuf.slice(i++)
-        } else {
-            break
-        }
-    }
-
-    for (let i = sLen.length; i <= parseInt(sLen); i++) {
-        ext += sBuf[i]
-    }
-    buf = Buffer.from(sBuf.slice(sLen.length + parseInt(sLen)))
-
-    return ext
-}
